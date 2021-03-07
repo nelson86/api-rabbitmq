@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq_dev
+    hostname: my-rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: dev
+      RABBITMQ_DEFAULT_PASS: 1234
+    ports:
+      - 5672:5672
+      - 15672:15672

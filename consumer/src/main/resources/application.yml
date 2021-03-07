@@ -1,0 +1,11 @@
+server:
+  port: 8080
+spring:
+  rabbitmq:
+    host: localhost
+    password: 1234
+    port: 15672
+    username: dev
+    exchange: user.exchange
+    queue: user.queue
+    routingkey: user.routingkey
