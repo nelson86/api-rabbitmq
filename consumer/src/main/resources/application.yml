@@ -6,6 +6,20 @@ spring:
     password: 1234
     port: 15672
     username: dev
-    exchange: user.exchange
-    queue: user.queue
-    routingkey: user.routingkey
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          max-attempts: 6
+          max-interval: 10s
+          multiplier: 2
+
+
+#  Aquí habilitamos el mecanismo de reintento Spring Boot RabbitMQ y especificamos algunos parámetros adicionales
+#  initial-interval- El mensaje se debe reintentar después de un intervalo de 3 segundos.
+#  max-attempts- El mensaje se debe reintentar un máximo de 6 veces. Después de lo cual se enviará a la cola de mensajes no entregados
+#  max-interval- El intervalo de tiempo máximo entre dos reintentos nunca debe exceder los 10 segundos.
+#  multiplier- El intervalo entre el segundo reintento se multiplica por 2
+#  Pero este intervalo nunca puede exceder el intervalo máximo.
+#  Por tanto, los valores del intervalo de reintento serán 3s, 6s, 10s, 10s, 10s. Como 10 segundos es el intervalo máximo especificado.

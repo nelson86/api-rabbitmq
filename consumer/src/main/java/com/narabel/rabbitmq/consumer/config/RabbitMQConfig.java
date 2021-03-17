@@ -13,14 +13,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${spring.rabbitmq.queue}")
-    private String queue;
+    public static final String QUEUE = "user.queue";
+    private static final String EXCHANGE = "user.exchange";
+    private static final String ROUTING_KEY = "user.routingkey";
 
-    @Value("${spring.rabbitmq.exchange}")
-    private String exchange;
+    private static final boolean IS_DURABLE_QUEUE = true;
 
-    @Value("${spring.rabbitmq.routingkey}")
-    private String routingKey;
+    private static final String DEAD_LETTER_QUEUE = "deadLetter.queue";
+    private static final String DEAD_LETTER_EXCHANGE = "deadLetter.exchange";
+    private static final String DEAD_LETTER_ROUTING_KEY = "deadLetter.routingkey";
 
     @Value("${spring.rabbitmq.username}")
     private String username;
@@ -31,14 +32,46 @@ public class RabbitMQConfig {
     @Value("${spring.rabbitmq.host}")
     private String host;
 
+
+/*
     @Bean
     Queue queue() {
-        return new Queue(queue, true);
+        return new Queue(QUEUE, IS_DURABLE_QUEUE);
     }
+*/
 
     @Bean
     Exchange myExchange() {
-        return ExchangeBuilder.directExchange(exchange).durable(true).build();
+        return ExchangeBuilder
+                .directExchange(EXCHANGE)
+                .durable(true)
+                .build();
+    }
+
+    @Bean
+    DirectExchange deadLetterExchange() {
+        return new DirectExchange(DEAD_LETTER_EXCHANGE);
+    }
+
+    @Bean
+    Queue dlq() {
+        return QueueBuilder.durable(DEAD_LETTER_QUEUE).build();
+    }
+
+    @Bean
+    Queue queue() {
+        return QueueBuilder
+                .durable(QUEUE)
+                .maxLength(2) // maximo de eventos en cola
+                .deadLetterExchange(DEAD_LETTER_EXCHANGE)
+                .deadLetterRoutingKey(DEAD_LETTER_ROUTING_KEY)
+                .ttl(1000) // Establecer la duración del mensaje, es decir, el tiempo de caducidad
+                .build();
+    }
+
+    @Bean
+    Binding DLQbinding() {
+        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with(DEAD_LETTER_ROUTING_KEY);
     }
 
     @Bean
@@ -46,7 +79,7 @@ public class RabbitMQConfig {
         return BindingBuilder
                 .bind(queue())
                 .to(myExchange())
-                .with(routingKey)
+                .with(ROUTING_KEY)
                 .noargs();
     }
 

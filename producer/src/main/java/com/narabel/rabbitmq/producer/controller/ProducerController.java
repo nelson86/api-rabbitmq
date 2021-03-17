@@ -22,7 +22,10 @@ public class ProducerController {
 
     @PostMapping(value = "user")
     public String publishUserDetails(@RequestBody User user) {
-        rabbitMqSender.send(user);
+        for (Integer i = 1; i <= 10; i++){
+            user.setUserId( i.toString() );
+            rabbitMqSender.send(user);
+        }
         return message;
     }
 }
