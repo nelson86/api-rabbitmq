@@ -8,14 +8,13 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.narabel.rabbitmq.consumer.config.RabbitMQConfig.QUEUE;
 
 @Component
 public class RabbitMqReceiver implements RabbitListenerConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqReceiver.class);
 
-    @RabbitListener(queues = {QUEUE})
+    @RabbitListener(queues = "user.queue")
     public void receivedMessage(User user) throws Exception {
 
         if(user.getUserId().contains("1"))
