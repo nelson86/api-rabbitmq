@@ -4,6 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
