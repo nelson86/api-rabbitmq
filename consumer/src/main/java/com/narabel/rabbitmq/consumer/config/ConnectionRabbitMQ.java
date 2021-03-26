@@ -23,7 +23,7 @@ public interface ConnectionRabbitMQ {
                 .durable(true)
                 .build();
 
-        Queue queue = new Queue(queueName, true, false, false, arguments);
+        Queue queue = new Queue(queueName, true, false, false);
 
         Binding binding = BindingBuilder
                 .bind( queue )

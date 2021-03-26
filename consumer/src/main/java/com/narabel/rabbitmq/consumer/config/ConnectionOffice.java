@@ -29,12 +29,12 @@ public class ConnectionOffice implements ConnectionRabbitMQ {
     public Map<String, Queue> getQueues(Map<String, Object> arguments) {
         Queue queues1 = QueueBuilder
                 .durable(QUEUE1)
-                .withArguments(arguments)
+                //.withArguments(arguments)
                 .build();
 
         Queue queues2 = QueueBuilder
                 .durable(QUEUE2)
-                .withArguments(arguments)
+                //.withArguments(arguments)
                 .build();
 
         queues.put(QUEUE1, queues1);

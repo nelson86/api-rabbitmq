@@ -14,10 +14,10 @@ import java.util.Map;
 public class ManagerConnectionRabbitMQ {
 
     public void setConnection( RabbitAdmin rabbitAdmin, Map<String, Object> arguments ) {
-
+/*
         log.info("Generando conexion para Usuario");
         ConnectionRabbitMQ.setConnection(rabbitAdmin, arguments,"user.exchange", "user.queue", "user.routingkey");
-
+*/
         log.info("Generando conexion para Oficina");
         new ConnectionOffice().setConnection(rabbitAdmin, arguments);
 

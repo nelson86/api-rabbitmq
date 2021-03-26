@@ -14,7 +14,7 @@ public class RabbitMqReceiver implements RabbitListenerConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqReceiver.class);
 
-    @RabbitListener(queues = "user.queue")
+    //@RabbitListener(queues = "user.queue")
     public void receivedMessage(User user) throws Exception {
 
         if(user.getUserId().contains("1"))

@@ -26,13 +26,18 @@ public class RabbitMQConfig {
 
     @Value("${spring.rabbitmq.host}")
     private String host;
+/*
+    @Value("${spring.rabbitmq.deadLetter.queue}")
+    private String dlQueue;
 
+    @Value("${spring.rabbitmq.deadLetter.exchange}")
+    private String dlExchange;
+
+    @Value("${spring.rabbitmq.deadLetter.routingkey}")
+    private String dlRoutingkey;
+*/
     @Autowired
     ManagerConnectionRabbitMQ managerConnectionRabbitMQ;
-
-    private static final String DEAD_LETTER_QUEUE = "deadLetter.queue";
-    private static final String DEAD_LETTER_EXCHANGE = "deadLetter.exchange";
-    private static final String DEAD_LETTER_ROUTING_KEY = "deadLetter.routingkey";
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -53,33 +58,33 @@ public class RabbitMQConfig {
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }
-
+/*
     @Bean
     DirectExchange deadLetterExchange() {
-        return new DirectExchange(DEAD_LETTER_EXCHANGE);
+        return new DirectExchange(dlExchange);
     }
 
     @Bean
     Queue dlq() {
-        return QueueBuilder.durable(DEAD_LETTER_QUEUE).build();
+        return QueueBuilder.durable(dlQueue).build();
     }
 
     @Bean
     Binding DLQbinding() {
-        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with(DEAD_LETTER_ROUTING_KEY);
+        return BindingBuilder.bind(dlq()).to(deadLetterExchange()).with(dlRoutingkey);
     }
-
+*/
     @Bean
     public RabbitAdmin rabbitAdmin() {
 
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
         rabbitAdmin.setAutoStartup (true); // Activa el inicio automático cuando se inicia el servicio
-
+/*
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("x-dead-letter-exchange", DEAD_LETTER_EXCHANGE);
-        arguments.put("x-dead-letter-routing-key", DEAD_LETTER_ROUTING_KEY);
-
-        this.managerConnectionRabbitMQ.setConnection(rabbitAdmin, arguments);
+        arguments.put("x-dead-letter-exchange", dlExchange);
+        arguments.put("x-dead-letter-routing-key", dlRoutingkey);
+*/
+        this.managerConnectionRabbitMQ.setConnection(rabbitAdmin, null);
 
         return rabbitAdmin;
     }

@@ -14,6 +14,9 @@ spring:
           max-attempts: 6
           max-interval: 10s
           multiplier: 2
+    auto-config:
+
+
 
 
 #  Aquí habilitamos el mecanismo de reintento Spring Boot RabbitMQ y especificamos algunos parámetros adicionales
